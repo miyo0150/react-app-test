@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { extendTheme, styled } from '@mui/material/styles';
-// import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import BarChartIcon from '@mui/icons-material/BarChart';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LayersIcon from '@mui/icons-material/Layers';
-import { AppProvider, Navigation, Router } from '@toolpad/core/AppProvider';
+import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import Grid from '@mui/material/Grid2';
@@ -20,12 +17,10 @@ const NAVIGATION = [
   {
     segment: 'dashboard',
     title: 'Dashboard',
-    // icon: <DashboardIcon />,
   },
   {
     segment: 'orders',
     title: 'Orders',
-    // icon: <ShoppingCartIcon />,
   },
   {
     kind: 'divider',
@@ -37,7 +32,6 @@ const NAVIGATION = [
   {
     segment: 'Jobs',
     title: 'Jobs',
-    // icon: <BarChartIcon />,
     children: [
       {
         segment: 'StopApp',
@@ -77,7 +71,7 @@ const demoTheme = extendTheme({
   },
 });
 
-function useDemoRouter(initialPath)  {
+function useDemoRouter(initialPath) {
   const [pathname, setPathname] = React.useState(initialPath);
 
   const router = React.useMemo(() => {
@@ -98,63 +92,70 @@ const Skeleton = styled('div')(({ theme, height }) => ({
   content: '" "',
 }));
 
+function StopApplicationPage() {
+  return (
+    <div>
+      <h2>Stop Application</h2>
+      <p>This page allows you to stop an application gracefully.</p>
+      <TextField
+        fullWidth
+        label="Environment Name"
+        placeholder="Enter environment name"
+        margin="normal"
+      />
+      <Button variant="contained" color="error">
+        Stop Application
+      </Button>
+    </div>
+  );
+}
+
+function DefaultPage({ page }) {
+  return (
+    <div>
+      <h2>{page} Page</h2>
+      <p>Content for the {page} page will go here.</p>
+    </div>
+  );
+}
+
 export default function DashboardLayoutBasic(props) {
   const { window } = props;
 
   const router = useDemoRouter('/dashboard');
 
-  // Remove this const when copying and pasting into your project.
-  const demoWindow = window ? window() : undefined;
+  const handleNavigationClick = (path) => {
+    router.navigate(path);
+  };
+
+  const renderContent = () => {
+    switch (router.pathname) {
+      case '/Jobs/StopApp':
+        return <StopApplicationPage />;
+      default:
+        return <DefaultPage page={router.pathname} />;
+    }
+  };
 
   return (
     <AppProvider
-      navigation={NAVIGATION}
+      navigation={NAVIGATION.map((nav) => ({
+        ...nav,
+        onClick: nav.segment ? () => handleNavigationClick(`/${nav.segment}`) : undefined,
+      }))}
       branding={{
-        logo:<img src='https://försäkring.se/images/company-logos/folksam-forsakring-logotyp.png'></img>,
-        title:'', 
-        homeUrl:'/'
+        logo: (
+          <img src="https://försäkring.se/images/company-logos/folksam-forsakring-logotyp.png" alt="Logo" />
+        ),
+        title: '',
+        homeUrl: '/',
       }}
       router={router}
       theme={demoTheme}
-      window={demoWindow}
+      window={window ? window() : undefined}
     >
       <DashboardLayout>
-        <PageContainer>
-          <Grid container spacing={1}>
-            <Grid size={5} />
-            <Grid size={12}>
-              <Skeleton height={14} />
-            </Grid>
-            <Grid size={12}>
-              <Skeleton height={14} />
-            </Grid>
-            <Grid size={4}>
-              <Skeleton height={100} />
-            </Grid>
-            <Grid size={8}>
-              <Skeleton height={100} />
-            </Grid>
-            <Grid size={12}>
-              <Skeleton height={150} />
-            </Grid>
-            <Grid size={12}>
-              <Skeleton height={14} />
-            </Grid>
-
-            <Grid size={3}>
-              <Skeleton height={100} />
-            </Grid>
-            <Grid size={3}>
-              <Skeleton height={100} />
-            </Grid>
-            <Grid size={3}>
-              <Skeleton height={100} />
-            </Grid>
-            <Grid size={3}>
-              <Skeleton height={100} />
-            </Grid>
-          </Grid>
-        </PageContainer>
+        <PageContainer>{renderContent()}</PageContainer>
       </DashboardLayout>
     </AppProvider>
   );
