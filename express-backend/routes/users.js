@@ -5,40 +5,71 @@ const router = express.Router();
 
 //Get all users
 router.post("/login", async (req, res) => {
+
+    console.log("🛠️ Debug: Received request body:", req.body);
+
     const { email, password } = req.body;
+
     if (!email || !password) {
+
+        console.error("❌ Missing email or password");
         return res.status(400).send("Email and password are required.");
+
     }
 
     await poolConnect;
+
     const request = new sql.Request();
+
     try {
-        //Fetch user by email
+
+        console.log("🛠️ Debug: Checking database for user with email:", email);
+
         const result = await request
-        .input("Email", sql.NVarChar, email)
-        .query("SELECT * FROM Users WHERE Email = @Email");
+            .input("Email", sql.NVarChar, email)
+            .query("SELECT * FROM Users WHERE Email = @Email");
+
+        console.log("🛠️ Debug: Database query result:", result.recordset);
 
         if (result.recordset.length === 0) {
-            return res.status(401).send("Invalid email or password.");
+
+            console.error("❌ No user found for email:", email);
+            return res.status(401).send("Invalid credentials.");
+
         }
 
         const user = result.recordset[0];
-        const passwordMatch = await bcrypt.compare(password, user.PasswordHash);
+        console.log("🛠️ Debug: Found user:", user);
+
+        console.log("🛠️ Debug: Comparing passwords...");
+
+        const passwordMatch = await bcrypt.compare(password, user.PASSWORD_HASH);
+
+
 
         if (!passwordMatch) {
-            return res.status(401).send("Invalid email or password.");
+
+            console.error("❌ Incorrect password for:", email);
+            return res.status(401).send("Invalid credentials.");
+
         }
 
-        //On successful authentication, send back user data (excluding sensitive fields)
+        console.log("✅ Authentication successful for:", email);
+
         res.json({
             id: user.Id,
             name: user.Name,
             email: user.Email,
-            createdAt: user.CreatedAt,
+            createdAt: user.CREATED_AT,
         });
+
     } catch (err) {
-        res.status(500).send(err.message);
+
+        console.error("❌ Server error:", err);
+        res.status(500).send("Server error.");
+
     }
+
 });
 
 //Get user by ID
