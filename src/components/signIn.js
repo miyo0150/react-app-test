@@ -17,7 +17,7 @@ const BRANDING = {
   logo: (
     <img
       src="https://försäkring.se/images/company-logos/folksam-forsakring-logotyp.png"
-      alt="MUI logo"
+      alt="Folksam Logo"
       style={{ height: 100 }}
     />
   ),
@@ -56,12 +56,12 @@ export default function BrandingSignInPage() {
         providers={providers}
         slotProps={{
             emailField: {
-            name: 'username', // Rename the field to 'username'
-            label: 'Username', // Update the label
-            type: 'text', // Set type to 'text' instead of 'email'
+            name: 'username', 
+            label: 'Username', 
+            type: 'text', 
             },
             passwordField: {
-            name: 'password', // Ensure the password field is correctly configured
+            name: 'password',
             },
         }}
 />
