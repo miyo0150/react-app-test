@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 
-// ✅ Restoring your original NAVIGATION structure
+// ✅ Keeping your original NAVIGATION structure
 const NAVIGATION = [
   { kind: "header", title: "Main items" },
   { segment: "dashboard", title: "Dashboard" },
@@ -29,57 +29,84 @@ const NAVIGATION = [
   { segment: "integrations", title: "Integrations", icon: <LayersIcon /> },
 ];
 
-// ✅ Keeping your theme unchanged
+// ✅ Theme remains unchanged
 const demoTheme = extendTheme({
   colorSchemes: { light: true, dark: true },
   colorSchemeSelector: "class",
 });
 
-// ✅ Main Dashboard Component with Logout Button
 export default function DashboardLayoutBasic({ onLogout }) {
   const navigate = useNavigate();
+  const [activePage, setActivePage] = React.useState("dashboard"); // ✅ Controls the displayed content
+
+  const renderContent = () => {
+    switch (activePage) {
+      case "dashboard":
+        return <h2>Welcome to the Dashboard</h2>;
+
+      case "orders":
+        return (
+          <div>
+            <h2>Orders</h2>
+            <p>Manage all orders here.</p>
+          </div>
+        );
+
+      case "StopApp":
+        return (
+          <div>
+            <h2>Stop Application</h2>
+            <p>This section allows you to stop an application.</p>
+            <TextField fullWidth label="Environment Name" placeholder="Enter environment name" margin="normal" />
+            <Button variant="contained" color="error" sx={{ mt: 2 }}>
+              Stop Application
+            </Button>
+          </div>
+        );
+
+      case "StartApp":
+        return (
+          <div>
+            <h2>Start Application</h2>
+            <p>This section allows you to start an application.</p>
+            <TextField fullWidth label="Environment Name" placeholder="Enter environment name" margin="normal" />
+            <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+              Start Application
+            </Button>
+          </div>
+        );
+
+      case "Deployment":
+        return (
+          <div>
+            <h2>IDIT Deployment</h2>
+            <p>Manage deployment operations here.</p>
+            <Button variant="contained" color="secondary" sx={{ mt: 2 }}>
+              Deploy Now
+            </Button>
+          </div>
+        );
+
+      case "integrations":
+        return (
+          <div>
+            <h2>Integrations</h2>
+            <p>Manage system integrations here.</p>
+          </div>
+        );
+
+      default:
+        return <h2>Welcome to the Dashboard</h2>;
+    }
+  };
 
   return (
     <AppProvider
-      navigation={NAVIGATION}
+      navigation={NAVIGATION.map((nav) => ({
+        ...nav,
+        onClick: nav.segment ? () => setActivePage(nav.segment) : undefined, // ✅ Updates content instead of navigating
+      }))}
       branding={{
         logo: (
           <img
-            src="https://försäkring.se/images/company-logos/folksam-forsakring-logotyp.png"
-            alt="Logo"
-          />
-        ),
-        title: "", // ✅ Removed "Dashboard" next to the logo
-        homeUrl: "/dashboard",
-      }}
-      theme={demoTheme}
-    >
-      <DashboardLayout>
-        {/* ✅ Logout Button Fixed */}
-        <Box sx={{ position: "absolute", top: 10, right: 10 }}>
-          <Button variant="contained" color="error" onClick={onLogout}>
-            🔴 Logout
-          </Button>
-        </Box>
-
-        {/* ✅ Keeping StopApp inside the dashboard (No function, just content) */}
-        <PageContainer>
-          <h2>Welcome to the Dashboard</h2>
-
-          {/* ✅ Restored StopApp content exactly as it was */}
-          <h2>Stop Application</h2>
-          <p>This page allows you to stop an application gracefully.</p>
-          <TextField
-            fullWidth
-            label="Environment Name"
-            placeholder="Enter environment name"
-            margin="normal"
-          />
-          <Button variant="contained" color="error" sx={{ mt: 2 }}>
-            Stop Application
-          </Button>
-        </PageContainer>
-      </DashboardLayout>
-    </AppProvider>
-  );
-}
+            src="https://försäkring.se/images/company-logos/folksam-forsak
