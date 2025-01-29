@@ -42,7 +42,7 @@ export default function DashboardLayoutBasic(props) {
             alt="Logo"
           />
         ),
-        title: "Dashboard",
+        title: "",
         homeUrl: "/dashboard",
       }}
       theme={demoTheme}
