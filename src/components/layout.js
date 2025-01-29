@@ -164,4 +164,25 @@ export default function DashboardLayoutBasic({ onLogout }) {
           <img
             src="https://försäkring.se/images/company-logos/folksam-forsakring-logotyp.png"
             alt="Logo"
-         
+          />
+        ),
+        title: "", // ✅ Removed "Dashboard" text next to logo
+        homeUrl: "/dashboard",
+      }}
+      router={router}
+      theme={demoTheme}
+    >
+      <DashboardLayout>
+        {/* ✅ Fixed Logout Button Position */}
+        <Box sx={{ position: "absolute", top: 10, right: 10 }}>
+          <Button variant="contained" color="error" onClick={handleLogout}>
+            🔴 Logout
+          </Button>
+        </Box>
+
+        {/* ✅ Keeping original content rendering */}
+        <PageContainer>{renderContent()}</PageContainer>
+      </DashboardLayout>
+    </AppProvider>
+  );
+}
