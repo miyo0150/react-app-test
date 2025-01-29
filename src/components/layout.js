@@ -45,18 +45,35 @@ function useDemoRouter(initialPath) {
   };
 }
 
-// ✅ Pages
+// ✅ Stop Application Page - RESTORED WITH INPUT FIELD & BUTTON
 function StopApplicationPage() {
+  const [environment, setEnvironment] = React.useState("");
+
+  const handleStopApp = () => {
+    console.log(`🚨 Stopping application for environment: ${environment}`);
+    alert(`Application for ${environment} has been stopped.`);
+  };
+
   return (
     <div>
       <h2>Stop Application</h2>
       <p>This page allows you to stop an application gracefully.</p>
-      <TextField fullWidth label="Environment Name" placeholder="Enter environment name" margin="normal" />
-      <Button variant="contained" color="error">Stop Application</Button>
+      <TextField
+        fullWidth
+        label="Environment Name"
+        placeholder="Enter environment name"
+        margin="normal"
+        value={environment}
+        onChange={(e) => setEnvironment(e.target.value)}
+      />
+      <Button variant="contained" color="error" onClick={handleStopApp}>
+        Stop Application
+      </Button>
     </div>
   );
 }
 
+// ✅ Default Page (Keeps other pages working properly)
 function DefaultPage({ page }) {
   return (
     <div>
@@ -74,7 +91,7 @@ export default function DashboardLayoutBasic({ onLogout }) {
   const renderContent = () => {
     switch (router.pathname) {
       case "/Jobs/StopApp":
-        return <StopApplicationPage />;
+        return <StopApplicationPage />; // ✅ Now this page is fully restored!
       default:
         return <DefaultPage page={router.pathname} />;
     }
