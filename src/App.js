@@ -5,19 +5,18 @@ import DashboardLayoutBasic from "./components/layout"; // Your dashboard compon
 import SignIn from "./components/signIn"; // Sign-In page component
 
 function App() {
-  // State to track authentication
+  // ✅ State to track authentication
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Check localStorage for user authentication
+  // ✅ Check localStorage for user authentication on load
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user) {
-      setIsAuthenticated(true);
-    }
+    setIsAuthenticated(!!user); // Convert to boolean
   }, []);
 
-  // Logout function to clear session
+  // ✅ Logout function to clear session
   const handleLogout = () => {
+    console.log("🔴 Logging out...");
     localStorage.removeItem("user");
     setIsAuthenticated(false);
   };
@@ -25,7 +24,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Default Route: Sign-In */}
+        {/* ✅ Default Route: Sign-In */}
         <Route
           path="/"
           element={
@@ -37,12 +36,12 @@ function App() {
           }
         />
 
-        {/* Dashboard Route (Protected) */}
+        {/* ✅ Dashboard Route (Protected) */}
         <Route
           path="/dashboard"
           element={
             isAuthenticated ? (
-              <DashboardLayoutBasic onLogout={handleLogout} />
+              <DashboardLayoutBasic onLogout={handleLogout} /> // ✅ Pass logout function
             ) : (
               <Navigate to="/" replace />
             )
