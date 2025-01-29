@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
+const cors = require("cors"); //Import CORS
 const usersRoutes = require("./routes/users");
 const { connectDB } = require("./db");
 const passport = require("passport");
@@ -9,8 +9,10 @@ const ActiveDirectory = require("activedirectory2");
 require("dotenv").config({path:"./.env"});
 
 const app = express();
+
 app.use(express.json());
 app.use(passport.initialize());
+app.use(cors({ origin: "http://localhost:3000", credentials: true}));
 
 //LDAP Configuration for Authentication
 const LDAP_CONFIG = {
