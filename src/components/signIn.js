@@ -22,7 +22,7 @@ const BRANDING = {
 export default function BrandingSignInPage({ onSignIn }) {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [isLoading, setState] = useState(false);
+  // const [isLoading, setState] = useState(false);
   const signIn = async (provider, credentials) => {
     // Convert FormData to a normal JavaScript object
     const formData = Object.fromEntries(credentials.entries());
