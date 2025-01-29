@@ -25,25 +25,19 @@ export default function BrandingSignInPage({ onSignIn }) {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // ✅ Auto-check authentication status
   useEffect(() => {
     const user = localStorage.getItem("user");
-    console.log("🛠️ Debug: Checking authentication status. User:", user);
     if (user) {
       navigate("/dashboard");
     }
   }, [navigate]);
 
-  // ✅ Sign-in function
   const signIn = async (provider, credentials) => {
     const formData = Object.fromEntries(credentials.entries());
-    console.log("🛠️ Debug: Received form data:", formData);
-
     const username = formData.username;
     const password = formData.password;
 
     if (!username || !password) {
-      console.error("❌ Missing username or password!");
       setError("Username and password are required.");
       return Promise.reject(new Error("Username and password are required."));
     }
@@ -51,23 +45,15 @@ export default function BrandingSignInPage({ onSignIn }) {
     try {
       setIsLoading(true);
       const payload = { username, password };
-      console.log("🛠️ Debug: Sending LDAP payload:", payload);
 
       const response = await axios.post("http://localhost:5000/api/auth/login", payload);
 
-      console.log("✅ Login successful:", response.data);
-
-      // ✅ Store user in localStorage
       localStorage.setItem("user", JSON.stringify(response.data.user));
-      console.log("🛠️ Debug: User stored in localStorage");
-
-      // ✅ Navigate to dashboard
       onSignIn();
       navigate("/dashboard");
 
       return Promise.resolve();
     } catch (error) {
-      console.error("❌ Sign-in failed:", error.response?.data || error.message);
       setError("Invalid credentials. Please try again.");
       return Promise.reject(new Error("Invalid credentials. Please try again."));
     } finally {
