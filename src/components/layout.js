@@ -55,6 +55,14 @@ const NAVIGATION = [
     title: 'Integrations',
     icon: <LayersIcon />,
   },
+  {
+    kind: 'divider',
+  },
+  {
+    segment: 'logout',
+    title: 'Logout',
+    icon: <LayersIcon />, // You can use a different icon if you prefer
+  },
 ];
 
 const demoTheme = extendTheme({
@@ -110,6 +118,24 @@ function StopApplicationPage() {
   );
 }
 
+function StartApplicationPage() {
+  return (
+    <div>
+      <h2>Stop Application</h2>
+      <p>This page allows you to stop an application gracefully.</p>
+      <TextField
+        fullWidth
+        label="Environment Name"
+        placeholder="Enter environment name"
+        margin="normal"
+      />
+      <Button variant="contained" color="error">
+        Stop Application
+      </Button>
+    </div>
+  );
+}
+
 function DefaultPage({ page }) {
   return (
     <div>
@@ -132,6 +158,8 @@ export default function DashboardLayoutBasic(props) {
     switch (router.pathname) {
       case '/Jobs/StopApp':
         return <StopApplicationPage />;
+      case '/Jobs/StartApp':
+        return <StartApplicationPage/>;
       default:
         return <DefaultPage page={router.pathname} />;
     }
