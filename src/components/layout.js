@@ -154,7 +154,8 @@ export default function DashboardLayoutBasic(props) {
     router.navigate(path);
   };
 
-  const renderContent = () => {
+  //Will render based on router
+  const renderContent = () => { 
     switch (router.pathname) {
       case '/Jobs/StopApp':
         return <StopApplicationPage />;
