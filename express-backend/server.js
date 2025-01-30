@@ -8,13 +8,12 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: "http://localhost:3000", credentials: true })); //CORS (Allows authentication only from frontend URL)
 
 // Routes
 app.use("/api/auth", authRoutes);
 
 async function startServer() {
-    // await connectDB();
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
