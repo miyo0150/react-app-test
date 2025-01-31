@@ -5,9 +5,9 @@ import LayersIcon from '@mui/icons-material/Layers';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { PageContainer } from '@toolpad/core/PageContainer';
-import Grid from '@mui/material/Grid2';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
+import ToolbarActionsSignOut from './signOutFunction';
 
 const NAVIGATION = [
   {
@@ -55,14 +55,6 @@ const NAVIGATION = [
     title: 'Integrations',
     icon: <LayersIcon />,
   },
-  {
-    kind: 'divider',
-  },
-  {
-    segment: 'logout',
-    title: 'Logout',
-    icon: <LayersIcon />, // You can use a different icon if you prefer
-  },
 ];
 
 const demoTheme = extendTheme({
@@ -79,6 +71,7 @@ const demoTheme = extendTheme({
   },
 });
 
+
 function useDemoRouter(initialPath) {
   const [pathname, setPathname] = React.useState(initialPath);
 
@@ -92,13 +85,6 @@ function useDemoRouter(initialPath) {
 
   return router;
 }
-
-const Skeleton = styled('div')(({ theme, height }) => ({
-  backgroundColor: theme.palette.action.hover,
-  borderRadius: theme.shape.borderRadius,
-  height,
-  content: '" "',
-}));
 
 function StopApplicationPage() {
   return (
@@ -183,7 +169,11 @@ export default function DashboardLayoutBasic(props) {
       theme={demoTheme}
       window={window ? window() : undefined}
     >
-      <DashboardLayout>
+      <DashboardLayout
+        slots={{
+          toolbarActions: ToolbarActionsSignOut,
+        }}
+        >
         <PageContainer>{renderContent()}</PageContainer>
       </DashboardLayout>
     </AppProvider>
