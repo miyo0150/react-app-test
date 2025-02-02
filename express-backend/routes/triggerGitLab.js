@@ -15,6 +15,7 @@ router.post("/trigger-pipeline", async (req, res) => {
         const pipelineData = await triggerPipeline(branch, variables);
         res.json({ message: "Pipeline triggered successfully!", pipelineData });
     } catch (error) {
+        console.error("testing", error.response?.data || error.message);
         res.status(500).json({ error: error.message });
     }
 });
