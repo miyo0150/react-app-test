@@ -30,17 +30,12 @@ export default function BrandingSignInPage({ onSignIn }) {
     if (user) {
       navigate("/dashboard");
     }
-  }, [navigate]);
+  }, []);
 
   const signIn = async (provider, credentials) => {
     const formData = Object.fromEntries(credentials.entries());
     const username = formData.username;
     const password = formData.password;
-
-    if (!username || !password) {
-      setError("Username and password are required.");
-      return Promise.reject(new Error("Username and password are required."));
-    }
 
     try {
       setIsLoading(true);
@@ -54,8 +49,9 @@ export default function BrandingSignInPage({ onSignIn }) {
 
       return Promise.resolve();
     } catch (error) {
+      setIsLoading(false);
       setError("Invalid credentials. Please try again.");
-      return Promise.reject(new Error("Invalid credentials. Please try again."));
+      // return Promise.reject(new Error("Invalid credentials. Please try again."));
     } finally {
       setIsLoading(false);
     }
@@ -67,12 +63,13 @@ export default function BrandingSignInPage({ onSignIn }) {
         signIn={signIn}
         providers={providers}
         slotProps={{
-          emailField: { name: "username", label: "Username", type: "text" },
-          passwordField: { name: "password" },
+          emailField: { name: "username", label: "Username", type: "text", error: error},
+          passwordField: { name: "password", helperText: error, error: error},
+          submitButton: {
+            loading: isLoading,
+          },
         }}
       />
-      {isLoading && <p>🔄 Logging in...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </AppProvider>
   );
 }

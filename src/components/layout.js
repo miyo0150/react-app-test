@@ -4,10 +4,12 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import LayersIcon from '@mui/icons-material/Layers';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import ToolbarActionsSignOut from './signOutFunction';
+import FolderIcon from '@mui/icons-material/Folder';
 
 const NAVIGATION = [
   {
@@ -17,10 +19,7 @@ const NAVIGATION = [
   {
     segment: 'dashboard',
     title: 'Dashboard',
-  },
-  {
-    segment: 'orders',
-    title: 'Orders',
+    icon: <DashboardIcon />,
   },
   {
     kind: 'divider',
@@ -31,7 +30,8 @@ const NAVIGATION = [
   },
   {
     segment: 'Jobs',
-    title: 'Jobs',
+    title: 'Team X',
+    icon: <FolderIcon />,
     children: [
       {
         segment: 'StopApp',
@@ -107,7 +107,7 @@ function StopApplicationPage() {
 function StartApplicationPage() {
   return (
     <div>
-      <h2>Stop Application</h2>
+      <h2>Start Application</h2>
       <p>This page allows you to stop an application gracefully.</p>
       <TextField
         fullWidth
@@ -125,8 +125,11 @@ function StartApplicationPage() {
 function DefaultPage({ page }) {
   return (
     <div>
-      <h2>{page} Page</h2>
-      <p>Content for the {page} page will go here.</p>
+      <h2>IDIT Test Suite</h2>
+      <p>IDIT Test Suite is designed to centralize and manage
+        scripts from various platforms <br/> such as GitLab, Jenkins, Azure DevOps, and more. 
+        Instead of navigating through multiple sites,<br/>
+        our system integrates several APIs to bring all your scripts into IDS.</p>
     </div>
   );
 }

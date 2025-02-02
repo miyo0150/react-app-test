@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
+const gitlabPipeline = require("./routes/triggerGitLab");
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true })); //CORS (A
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/scripts", gitlabPipeline);
 
 async function startServer() {
     const PORT = process.env.PORT || 5000;
