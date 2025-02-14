@@ -4,12 +4,56 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import LayersIcon from '@mui/icons-material/Layers';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import { PageContainer } from '@toolpad/core/PageContainer';
-import Grid from '@mui/material/Grid2';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { getActiveRoutes } from './routes';
 
+const NAVIGATION = [
+  {
+    kind: 'header',
+    title: 'Main items',
+  },
+  {
+    segment: 'dashboard',
+    title: 'Dashboard',
+    icon: <DashboardIcon />,
+  },
+  {
+    kind: 'divider',
+  },
+  {
+    kind: 'header',
+    title: 'Test Suite',
+  },
+  {
+    segment: 'Jobs',
+    title: 'Team X',
+    icon: <FolderIcon />,
+    children: [
+      {
+        segment: 'StopApp',
+        title: 'Stop Application',
+        icon: <DescriptionIcon />,
+      },
+      {
+        segment: 'StartApp',
+        title: 'Start Application',
+        icon: <DescriptionIcon />,
+      },
+      {
+        segment: 'Deployment',
+        title: 'IDIT Deployment',
+        icon: <DescriptionIcon />,
+      },
+    ],
+  },
+  {
+    segment: 'integrations',
+    title: 'Integrations',
+    icon: <LayersIcon />,
+  },
+];
 
 const demoTheme = extendTheme({
   colorSchemes: { light: true, dark: true },
@@ -25,6 +69,7 @@ const demoTheme = extendTheme({
   },
 });
 
+
 function useDemoRouter(initialPath) {
   const [pathname, setPathname] = React.useState(initialPath);
 
@@ -38,13 +83,6 @@ function useDemoRouter(initialPath) {
 
   return router;
 }
-
-const Skeleton = styled('div')(({ theme, height }) => ({
-  backgroundColor: theme.palette.action.hover,
-  borderRadius: theme.shape.borderRadius,
-  height,
-  content: '" "',
-}));
 
 function StopApplicationPage() {
   return (
@@ -64,11 +102,32 @@ function StopApplicationPage() {
   );
 }
 
+function StartApplicationPage() {
+  return (
+    <div>
+      <h2>Start Application</h2>
+      <p>This page allows you to stop an application gracefully.</p>
+      <TextField
+        fullWidth
+        label="Environment Name"
+        placeholder="Enter environment name"
+        margin="normal"
+      />
+      <Button variant="contained" color="error">
+        Stop Application
+      </Button>
+    </div>
+  );
+}
+
 function DefaultPage({ page }) {
   return (
     <div>
-      <h2>{page} Page</h2>
-      <p>Content for the {page} page will go here.</p>
+      <h2>IDIT Test Suite</h2>
+      <p>IDIT Test Suite is designed to centralize and manage
+        scripts from various platforms <br/> such as GitLab, Jenkins, Azure DevOps, and more. 
+        Instead of navigating through multiple sites,<br/>
+        our system integrates several APIs to bring all your scripts into IDS.</p>
     </div>
   );
 }
@@ -89,10 +148,13 @@ export default function DashboardLayoutBasic(props) {
     router.navigate(path);
   };
 
-  const renderContent = () => {
+  //Will render based on router
+  const renderContent = () => { 
     switch (router.pathname) {
       case '/Jobs/section1/StopApp':
         return <StopApplicationPage />;
+      case '/Jobs/StartApp':
+        return <StartApplicationPage/>;
       default:
         return <DefaultPage page={router.pathname} />;
     }
@@ -115,7 +177,11 @@ export default function DashboardLayoutBasic(props) {
       theme={demoTheme}
       window={window ? window() : undefined}
     >
-      <DashboardLayout>
+      <DashboardLayout
+        slots={{
+          toolbarActions: ToolbarActionsSignOut,
+        }}
+        >
         <PageContainer>{renderContent()}</PageContainer>
       </DashboardLayout>
     </AppProvider>
