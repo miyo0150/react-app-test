@@ -8,54 +8,8 @@ import { PageContainer } from '@toolpad/core/PageContainer';
 import Grid from '@mui/material/Grid2';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { getActiveRoutes } from './routes';
 
-const NAVIGATION = [
-  {
-    kind: 'header',
-    title: 'Main items',
-  },
-  {
-    segment: 'dashboard',
-    title: 'Dashboard',
-  },
-  {
-    segment: 'orders',
-    title: 'Orders',
-  },
-  {
-    kind: 'divider',
-  },
-  {
-    kind: 'header',
-    title: 'Test Suite',
-  },
-  {
-    segment: 'Jobs',
-    title: 'Jobs',
-    children: [
-      {
-        segment: 'StopApp',
-        title: 'Stop Application',
-        icon: <DescriptionIcon />,
-      },
-      {
-        segment: 'StartApp',
-        title: 'Start Application',
-        icon: <DescriptionIcon />,
-      },
-      {
-        segment: 'Deployment',
-        title: 'IDIT Deployment',
-        icon: <DescriptionIcon />,
-      },
-    ],
-  },
-  {
-    segment: 'integrations',
-    title: 'Integrations',
-    icon: <LayersIcon />,
-  },
-];
 
 const demoTheme = extendTheme({
   colorSchemes: { light: true, dark: true },
@@ -120,9 +74,16 @@ function DefaultPage({ page }) {
 }
 
 export default function DashboardLayoutBasic(props) {
+
+  // Din role ska vara i en useContext eller nåt som delas över hela appen
+  // Här kan du hämta din role från useContext 
+
   const { window } = props;
 
   const router = useDemoRouter('/dashboard');
+
+  // Istället för "admin" lägg in role när du hämtat från useContext
+  const activeRoutes = getActiveRoutes("admin")
 
   const handleNavigationClick = (path) => {
     router.navigate(path);
@@ -130,7 +91,7 @@ export default function DashboardLayoutBasic(props) {
 
   const renderContent = () => {
     switch (router.pathname) {
-      case '/Jobs/StopApp':
+      case '/Jobs/section1/StopApp':
         return <StopApplicationPage />;
       default:
         return <DefaultPage page={router.pathname} />;
@@ -139,7 +100,7 @@ export default function DashboardLayoutBasic(props) {
 
   return (
     <AppProvider
-      navigation={NAVIGATION.map((nav) => ({
+      navigation={activeRoutes.map((nav) => ({
         ...nav,
         onClick: nav.segment ? () => handleNavigationClick(`/${nav.segment}`) : undefined,
       }))}

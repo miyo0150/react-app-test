@@ -28,8 +28,6 @@ const BRANDING = {
 
 // Sign-in function
 const signIn = async (provider, { username, password }) => {
-console.log('Received credentials:', { username, password });
-console.log('Provider:', provider);
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
       const user = users.find(
