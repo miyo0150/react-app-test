@@ -7,53 +7,13 @@ import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
+// import ToolbarActionsSignOut from './signOutFunction';
+import FolderIcon from '@mui/icons-material/Folder';
+import StopApplicationPage from './stopAppPage';
+import StartApplicationPage from './startAppPage';
+import { getActiveRoutes } from './routes/routes';
 
-const NAVIGATION = [
-  {
-    kind: 'header',
-    title: 'Main items',
-  },
-  {
-    segment: 'dashboard',
-    title: 'Dashboard',
-    icon: <DashboardIcon />,
-  },
-  {
-    kind: 'divider',
-  },
-  {
-    kind: 'header',
-    title: 'Test Suite',
-  },
-  {
-    segment: 'Jobs',
-    title: 'Team X',
-    icon: <FolderIcon />,
-    children: [
-      {
-        segment: 'StopApp',
-        title: 'Stop Application',
-        icon: <DescriptionIcon />,
-      },
-      {
-        segment: 'StartApp',
-        title: 'Start Application',
-        icon: <DescriptionIcon />,
-      },
-      {
-        segment: 'Deployment',
-        title: 'IDIT Deployment',
-        icon: <DescriptionIcon />,
-      },
-    ],
-  },
-  {
-    segment: 'integrations',
-    title: 'Integrations',
-    icon: <LayersIcon />,
-  },
-];
 
 const demoTheme = extendTheme({
   colorSchemes: { light: true, dark: true },
@@ -84,42 +44,6 @@ function useDemoRouter(initialPath) {
   return router;
 }
 
-function StopApplicationPage() {
-  return (
-    <div>
-      <h2>Stop Application</h2>
-      <p>This page allows you to stop an application gracefully.</p>
-      <TextField
-        fullWidth
-        label="Environment Name"
-        placeholder="Enter environment name"
-        margin="normal"
-      />
-      <Button variant="contained" color="error">
-        Stop Application
-      </Button>
-    </div>
-  );
-}
-
-function StartApplicationPage() {
-  return (
-    <div>
-      <h2>Start Application</h2>
-      <p>This page allows you to stop an application gracefully.</p>
-      <TextField
-        fullWidth
-        label="Environment Name"
-        placeholder="Enter environment name"
-        margin="normal"
-      />
-      <Button variant="contained" color="error">
-        Stop Application
-      </Button>
-    </div>
-  );
-}
-
 function DefaultPage({ page }) {
   return (
     <div>
@@ -133,16 +57,11 @@ function DefaultPage({ page }) {
 }
 
 export default function DashboardLayoutBasic(props) {
-
-  // Din role ska vara i en useContext eller nåt som delas över hela appen
-  // Här kan du hämta din role från useContext 
-
   const { window } = props;
 
   const router = useDemoRouter('/dashboard');
 
-  // Istället för "admin" lägg in role när du hämtat från useContext
-  const activeRoutes = getActiveRoutes("admin")
+  const activeRoutes = getActiveRoutes("admin");
 
   const handleNavigationClick = (path) => {
     router.navigate(path);
@@ -179,7 +98,7 @@ export default function DashboardLayoutBasic(props) {
     >
       <DashboardLayout
         slots={{
-          toolbarActions: ToolbarActionsSignOut,
+          // toolbarActions: ToolbarActionsSignOut,
         }}
         >
         <PageContainer>{renderContent()}</PageContainer>
