@@ -3,16 +3,14 @@ import { extendTheme, styled } from '@mui/material/styles';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LayersIcon from '@mui/icons-material/Layers';
 import { AppProvider } from '@toolpad/core/AppProvider';
-import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+import { DashboardLayout, ThemeSwitcher } from '@toolpad/core/DashboardLayout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
-// import ToolbarActionsSignOut from './signOutFunction';
 import FolderIcon from '@mui/icons-material/Folder';
-import StopApplicationPage from './stopAppPage';
-import StartApplicationPage from './startAppPage';
-import { getActiveRoutes } from './routes/routes';
+import { getActiveRoutes } from './routes';
+import ToolbarActionsSignOut from './signOutFunction';
 
 
 const demoTheme = extendTheme({
@@ -71,9 +69,9 @@ export default function DashboardLayoutBasic(props) {
   const renderContent = () => { 
     switch (router.pathname) {
       case '/Jobs/section1/StopApp':
-        return <StopApplicationPage />;
+        return <DefaultPage />;
       case '/Jobs/StartApp':
-        return <StartApplicationPage/>;
+        return <DefaultPage/>;
       default:
         return <DefaultPage page={router.pathname} />;
     }
@@ -98,9 +96,9 @@ export default function DashboardLayoutBasic(props) {
     >
       <DashboardLayout
         slots={{
-          // toolbarActions: ToolbarActionsSignOut,
-        }}
-        >
+          toolbarActions: ToolbarActionsSignOut
+      }}
+      >
         <PageContainer>{renderContent()}</PageContainer>
       </DashboardLayout>
     </AppProvider>
