@@ -1,6 +1,7 @@
 import DescriptionIcon from '@mui/icons-material/Description';
 import FolderIcon from '@mui/icons-material/Folder';
 
+//Global routes are for anyone who has access to ITS
 const globalRoutes = [
     {
       kind: 'header',
@@ -19,15 +20,17 @@ const globalRoutes = [
     },
 ]
 
+//Root folder for scripts
 const jobRoutes = [
   {
     segment: 'header-jobs',
-    title: 'Jobs',
+    title: 'Scripts',
     icon: <FolderIcon/>,
     children: []
   }
 ]
 
+//Folder for ?
 const testerRoutes = [
     {
         
@@ -54,6 +57,7 @@ const testerRoutes = [
         },
 ]
 
+//Folder for timeshifting scripts
 const timeshiftRoutes = [
   {
       segment: 'section-timeshift',
@@ -74,6 +78,28 @@ const timeshiftRoutes = [
   },
 ];
 
+//Folder for infrastructure scripts. (Will be related to Team X)
+const infraRoutes = [
+  {
+      segment: 'section-infra',
+      title: 'IDIT Infrastruktur',
+      icon: <FolderIcon/>,
+      children: [
+          {
+              segment: 'test',
+              title: 'Deployment',
+              icon: <DescriptionIcon />,
+          },
+          {
+              segment: 'test',
+              title: 'Database backup',
+              icon: <DescriptionIcon />,
+          },
+      ],
+  },
+];
+
+//Function to add subRoutes to root folder "Scripts", possibility to add multiple arrays to "subRoutes".
 const addToHeaderJobs = (routes, ...subRoutes) => {
   return routes.map((route) =>
     route.segment === "header-jobs"
@@ -82,18 +108,22 @@ const addToHeaderJobs = (routes, ...subRoutes) => {
   );
 };
 
+//Function to get active routes for user based on user role. MSAL Group. Ex. Admin === IDIT_TEAMX
 export const getActiveRoutes = (role) => {
   let activeRoutesTest = [...globalRoutes];
   
     switch(role) {
+      //Group === "IDIT_TEAMX"
         case "admin":
           activeRoutesTest =[...activeRoutesTest, ...jobRoutes];
-          activeRoutesTest = addToHeaderJobs(activeRoutesTest, testerRoutes, timeshiftRoutes);
+          activeRoutesTest = addToHeaderJobs(activeRoutesTest, testerRoutes, timeshiftRoutes, infraRoutes);
         return activeRoutesTest;
+      //Group === N/A
         case "tester":
           activeRoutesTest =[...activeRoutesTest, ...jobRoutes];
           activeRoutesTest = addToHeaderJobs(activeRoutesTest, testerRoutes);
         return activeRoutesTest;
+      //Group === N/A
         default:
         return [...globalRoutes]
     }
