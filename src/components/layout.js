@@ -60,7 +60,7 @@ export default function DashboardLayoutBasic(props) {
   const router = useDemoRouter('/dashboard');
 
   const activeRoutes = getActiveRoutes("admin");
-
+  // console.log("Current arrays:", activeRoutes);
   const handleNavigationClick = (path) => {
     router.navigate(path);
   };
@@ -68,7 +68,7 @@ export default function DashboardLayoutBasic(props) {
   //Will render based on router
   const renderContent = () => { 
     switch (router.pathname) {
-      case '/Jobs/section1/StopApp':
+      case '/Jobs/section-tester/StopApp':
         return <DefaultPage />;
       case '/Jobs/StartApp':
         return <DefaultPage/>;
