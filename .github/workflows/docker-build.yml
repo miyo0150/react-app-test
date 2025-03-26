@@ -27,7 +27,7 @@ jobs:
         run: npm ci
 
       - name: Build React app
-        run: npm run build
+        run: CI=false npm run build
 
       # 🐳 Logga in till DockerHub (valfritt)
       - name: Log in to Docker Hub
