@@ -1,14 +1,8 @@
 import * as React from 'react';
 import { extendTheme, styled } from '@mui/material/styles';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LayersIcon from '@mui/icons-material/Layers';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout, ThemeSwitcher } from '@toolpad/core/DashboardLayout';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import { PageContainer } from '@toolpad/core/PageContainer';
-import TextField from '@mui/material/TextField';
-import Button from "@mui/material/Button";
-import FolderIcon from '@mui/icons-material/Folder';
 import { getActiveRoutes } from './routes';
 import ToolbarActionsSignOut from './signOutFunction';
 
